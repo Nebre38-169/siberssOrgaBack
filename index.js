@@ -1,6 +1,8 @@
 const express = require('express');
 const catMe = require('cat-me');
 
+const Logs = require('./assets/Logs');
+
 const app = express();
 
 const env = process.env.NODE_ENV || 'developement';
@@ -12,6 +14,6 @@ app.get('/',(req,res)=>{
 
 app.listen(port,()=>{
     console.log(catMe('nyan'));
-    console.log(`Server running on port ${port}`);
+    Logs.info(`Server running on port ${port}`);
 })
 
