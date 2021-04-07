@@ -1,4 +1,5 @@
 const express = require('express');
+const environementVariable = require('dotenv').config({path : __dirname+'/.env'});
 const catMe = require('cat-me');
 
 const Logs = require('./assets/Logs');

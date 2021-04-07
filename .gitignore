@@ -1,4 +1,4 @@
 /node_modules
-
+.env
 .log
 log/2021-4-7.log
