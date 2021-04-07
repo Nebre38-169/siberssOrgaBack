@@ -1,0 +1,33 @@
+{
+  "name": "sibersorgaback",
+  "version": "1.0.0",
+  "description": "BackEnd d'une application permettant la gestion des boquettes et de la communication au sein des boquettes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deathtracks/siberssOrgaBack.git"
+  },
+  "keywords": [
+    "API",
+    "Node.js",
+    "express",
+    "backend",
+    "gestion",
+    "Gadz"
+  ],
+  "author": "Nebre 38-169 Me219",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deathtracks/siberssOrgaBack/issues"
+  },
+  "homepage": "https://github.com/deathtracks/siberssOrgaBack#readme",
+  "dependencies": {
+    "cat-me": "^1.0.3",
+    "express": "^4.17.1",
+    "promise-mysql2": "^1.0.0"
+  }
+}
