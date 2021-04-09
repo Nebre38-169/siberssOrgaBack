@@ -2,7 +2,7 @@ const { object } = require('../base/object');
 const database = require('../../../database-structure.json');
 const Logs = require('../../logs');
 
-exports.User = class extends object {
+exports.Boquette = class extends object {
 
     /**
      * 

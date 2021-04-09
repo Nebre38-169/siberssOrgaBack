@@ -1,4 +1,7 @@
 /node_modules
 .env
 .log
-log/2021-4-7.log
+
+
+log/2021-4-9.log
+log/error/2021-4-9-[index.testConnexion].error

@@ -1,7 +1,7 @@
 const { objectWithDependance } = require("../base/object");
 const database = require('../../../database-structure.json');
 
-exports.Rotance = class extends objectWithDependance {
+exports.Posts = class extends objectWithDependance {
 
     constructor(connexion,boquetteOBJ,channelOBJ){
         super(

@@ -1,9 +1,9 @@
 const { object } = require("../base/object");
 const database = require('../../../database-structure.json');
 
-exports.Rotance = class extends object {
+exports.Channel = class extends object {
 
-    constructor(connexion,boquetteOBJ){
+    constructor(connexion){
         super(
             connexion,
             database.channel.name,
