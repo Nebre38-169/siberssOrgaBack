@@ -22,6 +22,11 @@ const database = require('./database-structure.json');
 // Begining of code : 
 const app = express();
 
+app.use(cors());
+app.use(morgan('combined'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
 const env = process.env.NODE_ENV || 'developement';
 const port = process.env.PORT || 3000;
 const databaseHost = process.env.DB_HOST || 'localhost';
@@ -52,18 +57,40 @@ pool.query(`SELECT * FROM ${database.boquette.name} LIMIT 5`)
 
 var boquetteOBJ = new Boquette(pool);
 var rotanceOBJ = new Rotance(pool,boquetteOBJ);
+Logs.info('Loaded boquette OBJ')
 
 var channelOBJ = new Channel(pool);
 var postsOBJ = new Posts(pool,boquetteOBJ,channelOBJ);
+Logs.info('Loaded posts OBJ')
 
 var connexionOBJ = new Connexion(pool,boquetteOBJ);
 var authOBJ = new Auth(connexionOBJ,boquetteOBJ);
 
+Logs.info('OBJ all loaded');
 
+
+const boquetteRoute = require('./assets/route/boquette/boquette-route')(boquetteOBJ);
+const rotanceRoute = require('./assets/route/boquette/rotance-route')(rotanceOBJ);
+Logs.info('loaded boquette routes');
+
+const channelRoute = require('./assets/route/channel/channel-route')(channelOBJ);
+const postsRoute = require('./assets/route/channel/posts-route')(postsOBJ);
+Logs.info('loaded channel routes');
+
+const authRoute = require('./assets/route/other/auth-route')(authOBJ);
 
 app.get('/',(req,res)=>{
     res.json('OK');
 })
+
+app.use('/boquette',boquetteRoute);
+app.use('/rotance',rotanceRoute);
+
+app.use('/channel',channelRoute);
+app.use('/posts',postsRoute);
+
+app.use('/auth',authRoute);
+Logs.info('All route setted');
 
 app.listen(port,()=>{
     console.log(catMe('nyan'));
