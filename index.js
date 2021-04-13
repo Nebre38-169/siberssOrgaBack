@@ -36,12 +36,14 @@ var pool = mysql.createPool({
     host : databaseHost,
     user : process.env.DB_USER,
     password : process.env.DB_PASSWORD,
-    database : process.env.DB_DATABASE
+    database : process.env.DB_SCHEMA,
+    port : process.env.DB_PORT || '3306',
+    ssl : (process.env.DB_SSL==='true')
 })
 
 pool.query(`SELECT * FROM ${database.boquette.name} LIMIT 5`)
 .then(([rows,fields])=>{
-    if(rows.length>0){
+    if(rows){
         Logs.info(`Connected to the database at ${databaseHost}`);
     } else {
         Logs.info(`Unable to connect to database at ${databaseHost}....API stoping`);
