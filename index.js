@@ -38,7 +38,7 @@ var pool = mysql.createPool({
     password : process.env.DB_PASSWORD,
     database : process.env.DB_SCHEMA,
     port : process.env.DB_PORT || '3306',
-    ssl : (process.env.DB_SSL==='true')
+    ssl : (process.env.DB_SSL==='true') || false
 })
 
 pool.query(`SELECT * FROM ${database.boquette.name} LIMIT 5`)

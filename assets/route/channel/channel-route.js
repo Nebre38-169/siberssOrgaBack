@@ -49,13 +49,23 @@ router.get('/count',async(req,res)=>{
     res.json(checkAndChange(result));
 })
 
+router.post('',async(req,res)=>{
+    let result;
+    if(OBJ.checkFields(req.body)){
+        result = await OBJ.createNew(req.body);
+    } else {
+        result = new Error('Missing info');
+    }
+    res.json(checkAndChange(result));
+})
+
 /**
  * Update an entry if all field are located
  */
 router.put('/:id',async (req,res)=>{
     let result;
     if(OBJ.checkFields(req.body)){
-        result = await dbRoom.update(req.params.id,req.body);
+        result = await OBJ.update(req.params.id,req.body);
     } else {
         result = new Error('Missing info');
     }
@@ -66,6 +76,6 @@ router.put('/:id',async (req,res)=>{
  * Delete an entry with the corresponding id
  */
  router.delete('/:id',async (req,res)=>{
-    let result = await dbRoom.delete(req.params.id);
+    let result = await OBJ.delete(req.params.id);
     res.json(checkAndChange(result));
 })

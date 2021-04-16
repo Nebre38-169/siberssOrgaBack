@@ -206,7 +206,7 @@ exports.Auth = class {
                     next(res);
                 } else {
                     //TODO : add login function
-                    Logs.info(`Created a user profile for user ${values['email']}`);
+                    Logs.info(`Created a user profile for user ${values['name']}`);
                     next(res);
                 }
             })

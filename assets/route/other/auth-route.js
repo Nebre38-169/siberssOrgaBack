@@ -37,6 +37,7 @@ router.post('/signin',async(req,res)=>{
         } else {
             result = new Error('Missing information');
         }
+    console.log(result);
     res.json(checkAndChange(result));
 })
 
