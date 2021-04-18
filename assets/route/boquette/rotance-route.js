@@ -41,6 +41,11 @@ router.get('/key/:key',async(req,res)=>{
     res.json(checkAndChange(result));
 })
 
+router.get('/next/:boquette',async(req,res)=>{
+    let result = await OBJ.get(`rotance.boquette=${req.params.boquette} ORDER BY rotance.date LIMIT 1`);
+    res.json(checkAndChange(result));
+})
+
 router.get('/dependance/:field/:id',async(req,res)=>{
     let result = await OBJ.getByDependance(req.params.id,req.params.field);
     res.json(checkAndChange(result))

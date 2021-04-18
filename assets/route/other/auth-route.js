@@ -43,10 +43,10 @@ router.post('/signin',async(req,res)=>{
 
 router.post('/editpassword/:id',async(req,res)=>{
     let result;
-    if(req.body.oldPassword && req.body.newPassword){
-        result = await dbAuth.updatePassword(req.params.id,req.body.oldPassword,req.body.newPassword);
+    if(req.body.newPassword){
+        result = await dbAuth.updatePassword(req.params.id,req.body.newPassword);
     } else {
-        result = new Error('Missing informatio');
+        result = new Error('Missing information');
     }
     res.json(checkAndChange(result));
 })

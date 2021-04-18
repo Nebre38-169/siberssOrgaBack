@@ -364,26 +364,15 @@ exports.Auth = class {
         })
     } */
     
-    updatePassword(id,oldPassword,newPassword){
+    updatePassword(id,newPassword){
         return new Promise(next =>{
-            this.checkPasswordWithId(id,oldPassword)
-            .then(v =>{
-                if(v instanceof Error){
-                    next(v);
+            this.userOBJ.update(id,{'password':newPassword})
+            .then(res =>{
+                if(res instanceof Error){
+                    next(res);
                 } else {
-                    this.userOBJ.update({'password':newPassword})
-                    .then(res =>{
-                        if(res instanceof Error){
-                            next(res);
-                        } else {
-                            Logs.info(`Succesfully updated the password for user ${id}`);
-                            next(res);
-                        }
-                    })
-                    .catch(err =>{
-                        Logs.error('auth.updatePassword');
-                        throw err;
-                    })
+                    Logs.info(`Succesfully updated the password for user ${id}`);
+                    next(res);
                 }
             })
             .catch(err =>{
