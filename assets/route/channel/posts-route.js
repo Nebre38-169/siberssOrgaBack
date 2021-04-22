@@ -46,6 +46,11 @@ router.get('/dependance/:field/:id',async(req,res)=>{
     res.json(checkAndChange(result))
 })
 
+router.get('/last/:channel',async(req,res)=>{
+    let result = await OBJ.get(`posts.channel=${req.params.channel} ORDER BY posts.creationDate LIMIT 1`);
+    res.json(checkAndChange(result));
+})
+
 /**
  * Return the count of all entry in the table
  */
