@@ -49,6 +49,11 @@ router.get('/count',async(req,res)=>{
     res.json(checkAndChange(result));
 })
 
+router.get('/of/:boquette',async(req,res)=>{
+    let result = await OBJ.get(`channel.boquettes LIKE '%${req.params.boquette}%'`);
+    res.json(checkAndChange(result));
+})
+
 router.post('',async(req,res)=>{
     let result;
     if(OBJ.checkFields(req.body)){

@@ -17,4 +17,30 @@ exports.Rotance = class extends objectWithDependance {
             ]
         )
     }
+
+    get(condition,param,opts){
+        if(opts==="*"){
+            return super.get(condition,param,{
+                order : {
+                    champs : 'date',
+                    asc : false
+                }
+            });
+        } else {
+            return super.get(condition,param,opts);
+        }
+    }
+
+    getByDependance(id,dependance,field,opts){
+        if(!opts){
+            return super.getByDependance(id,dependance,field,{
+                ordre : {
+                    champs : 'date',
+                    asc : false
+                }
+            });
+        } else {
+            return super.getByDependance(id,dependance,field,opts);
+        }
+    }
 }

@@ -42,7 +42,15 @@ router.get('/key/:key',async(req,res)=>{
 })
 
 router.get('/next/:boquette',async(req,res)=>{
-    let result = await OBJ.get(`rotance.boquette=${req.params.boquette} ORDER BY rotance.date LIMIT 1`);
+    let result = await OBJ.get(
+        '*',
+        { field : 'boquette',value: req.params.boquette},
+        {
+            ordre : {
+                champs : 'date',
+                asc : false
+            }
+        });
     res.json(checkAndChange(result));
 })
 

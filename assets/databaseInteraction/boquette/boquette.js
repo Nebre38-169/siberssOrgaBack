@@ -20,19 +20,19 @@ exports.Boquette = class extends object {
 
     /**
      * Return all user.
-     * @param {string} condition 
+     * @param {{ field : string, value : any}} condition 
      * @param {string} param 
      * @param {string} opts 
      * @returns 
      */
-    get(condition='*',param='*',opts='*'){
-        if(param==='*'){
-            param = 'id,name,respo,description,role,creationDate,updateDate';
+    get(field,condition,opts){
+        if(!field){
+            field = 'id,name,respo,description,role,creationDate,updateDate';
         }
-        if(param.includes('password')){
-            param.replace('password','');
+        if(field.includes('password')){
+            field.replace('password','');
         }
-        return super.get(condition,param,opts);
+        return super.get(field,condition,opts);
     }
 
     getById(id,param='*'){

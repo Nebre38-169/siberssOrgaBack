@@ -47,7 +47,7 @@ router.get('/dependance/:field/:id',async(req,res)=>{
 })
 
 router.get('/last/:channel',async(req,res)=>{
-    let result = await OBJ.get(`posts.channel=${req.params.channel} ORDER BY posts.creationDate LIMIT 1`);
+    let result = await OBJ.get(`posts.channel=${req.params.channel} ORDER BY posts.creationDate DESC LIMIT 1`);
     res.json(checkAndChange(result));
 })
 
@@ -56,6 +56,17 @@ router.get('/last/:channel',async(req,res)=>{
  */
 router.get('/count',async(req,res)=>{
     let result = await OBJ.getCount();
+    res.json(checkAndChange(result));
+})
+
+router.post('',async(req,res)=>{
+    let result;
+    console.log(req.body);
+    if(OBJ.checkFields(req.body)){
+        result = await OBJ.createNew(req.body);
+    } else {
+        result = new Error('Missing info');
+    }
     res.json(checkAndChange(result));
 })
 

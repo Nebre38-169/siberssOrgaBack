@@ -38,6 +38,29 @@ exports.object = class {
                 res+=` OFFSET ${option.start}`
             }
         }
+        return res;
+    }
+
+    /**
+     * 
+     * @param {string} field 
+     * @param {{ field:string, value : any }} condition 
+     * @param {} opts 
+     * 
+     */
+    getSelectQuery(field,table,condition,opts){
+        field = field || '*';
+        let query = `SELECT ${field} FROM ${table}`
+        if(condition){
+            let conditionStr = ` WHERE ${condition.field}='${condition.value}'`;
+            query+=conditionStr;
+        }
+        if(opts!=undefined){
+            let optsStr = this.getOption(opts);
+            query+=optsStr;
+        }
+        console.log(query);
+        return query;
     }
 
     /**
@@ -53,16 +76,9 @@ exports.object = class {
      * @param {string} param
      * @param {string} option
      */
-    get(condition='*',param='*',option='*'){
+    get(field,condition,option){
         return new Promise((next)=>{
-            let query = `SELECT ${param} FROM ${this.table}`;
-            if(condition!='*'){
-                query+=` WHERE ${condition}`;
-            }
-            if(option!='*'){
-                query+=this.getOption(option);
-            }
-            console.log(query);
+            let query = this.getSelectQuery(field,this.table,condition,option);
             this.db.query(query)
             .then(([result,fields])=>{
                 Logs.info(`Requested all entry in table ${this.table}`);
@@ -81,9 +97,9 @@ exports.object = class {
      * @param {number} id 
      * @param {string} param 
      */
-    getById(id,param='*'){
+    getById(id,field,opts){
         return new Promise((next)=>{
-            let query = `SELECT ${param} FROM ${this.table} WHERE id=${id}`;
+            let query = this.getSelectQuery(field,this.table,{ field : "id",value : id},opts);
             this.db.query(query)
             .then(([result,fields])=>{
                 Logs.info(`Requested element with id ${id} in table ${this.table}`);
@@ -109,12 +125,9 @@ exports.object = class {
      * @param {string} opts 
      * @returns {Promise<any | Error>}
      */
-    getByKey(keyValue, param='*',opts='*'){
+    getByKey(keyValue,field,opts){
         return new Promise(next =>{
-            let query = `SELECT ${param} FROM ${this.table} WHERE ${this.keyName}='${keyValue}'`;
-            if(opts!='*'){
-                //TODO : add a function to handle options request
-            }
+            let query = this.getSelectQuery(field,this.table,{ field : this.keyName,value:keyValue},opts);
             this.db.query(query)
             .then(([res,fields]) =>{
                 if(res[0]!=undefined){
@@ -389,11 +402,7 @@ exports.objectWithDependance = class extends this.object {
             let i = 0;
             let error = false;
             let message;
-            console.log(this.dependances);
-            console.log(values);
             while(i<this.dependances.length && !error){
-                console.log(i);
-                console.log(values[this.dependances[i].field]);
                 let result = await this.dependances[i].OBJ.getById(values[this.dependances[i].field]);
                 if(result instanceof Error){
                     error = true;
@@ -472,9 +481,9 @@ exports.objectWithDependance = class extends this.object {
         })
     }
 
-    getByDependance(id,field,params="*"){
+    getByDependance(id,dependance,field,opts){
         return new Promise((next)=>{
-            let query = `SELECT ${params} FROM ${this.table} WHERE ${field}=${id}`
+            let query = this.getSelectQuery(field,this.table,{ field : dependance,value:id},opts);
             this.db.query(query)
             .then(([result,fields])=>{
                 Logs.info(`Requested all entry of table ${this.table} with the field ${field} equal to ${id}`);
