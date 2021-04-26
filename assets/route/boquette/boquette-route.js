@@ -1,6 +1,7 @@
 const express = require('express');
 const { checkAndChange } = require('../../fonctions');
 const { Boquette } = require('../../databaseInteraction/boquette/boquette');
+const middleware = require('../../middleware');
 const router = express.Router();
 
 //TODO : add middleware
@@ -53,7 +54,7 @@ router.get('/count',async(req,res)=>{
 /**
  * Update an entry if all field are located
  */
-router.put('/:id',async (req,res)=>{
+router.put('/:id',middleware.admin,async (req,res)=>{
     let result;
     if(OBJ.checkFields(req.body)){
         result = await OBJ.update(req.params.id,req.body);
@@ -66,7 +67,7 @@ router.put('/:id',async (req,res)=>{
 /**
  * Delete an entry with the corresponding id
  */
- router.delete('/:id',async (req,res)=>{
+ router.delete('/:id',middleware.admin,async (req,res)=>{
     let result = await OBJ.delete(req.params.id);
     res.json(checkAndChange(result));
 })
