@@ -73,8 +73,9 @@ exports.object = class {
     
     /**
      * Get all element of the table. Return all the columns expect if specified otherwise
-     * @param {string} param
-     * @param {string} option
+     * @param {} field
+     * @param {} condition
+     * @param {} option
      */
     get(field,condition,option){
         return new Promise((next)=>{
