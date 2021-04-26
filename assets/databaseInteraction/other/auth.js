@@ -2,7 +2,6 @@ const Logs = require('../../logs');
 
 const passportJWT  = require('passport-jwt');
 const jwt = require('jsonwebtoken');
-const token = require('token');
 
 const { Connexion } = require('./connexion');
 const { Boquette } = require('../boquette/boquette');
@@ -92,7 +91,7 @@ exports.Auth = class {
             })
             .catch(err =>{
                 Logs.error('auth.checkPasswordWithEmail',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -116,7 +115,7 @@ exports.Auth = class {
             })
             .catch(err =>{
                 Logs.error('auth.checkPasswordwithId');
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -153,18 +152,18 @@ exports.Auth = class {
                         })
                         .catch(err =>{
                             Logs.error('auth.login',err);
-                            throw err;
+                            next(new Error('internal error'));
                         })
                     })
                     .catch(err =>{
                         Logs.error('auth.login',err);
-                        throw err;
+                        next(new Error('internal error'));
                     })
                 }
             })
             .catch(err =>{
                 Logs.error('auth.login',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -183,11 +182,16 @@ exports.Auth = class {
                     Logs.warning(`Succesfuly loged out the user. But the token was not found`);
                     next(true);
                 }else {
-                    this.connexionOBJ.delete(val[0].id)
-                    .then(res =>{
-                        Logs.info(`Succesfuly loged out the user ${val[0].user}`);
+                    if(val[0]!=undefined){
+                        this.connexionOBJ.delete(val[0].id)
+                        .then(res =>{
+                            Logs.info(`Succesfuly loged out the user ${val[0].user}`);
+                            next(true);
+                        })
+                    } else {
+                        Logs.warning(`No connected user found with id ${idUser}`);
                         next(true);
-                    })
+                    }
                 }
             })
         })
@@ -273,13 +277,13 @@ exports.Auth = class {
                     })
                     .catch(err =>{
                         Logs.error('auth.checkToken',err);
-                        throw err;
+                        next(new Error('internal error'));
                     })
                 }
             })
             .catch(err =>{
                 Logs.error('auth.checkToken',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -311,13 +315,13 @@ exports.Auth = class {
                             })
                             .catch(err =>{
                                 Logs.error('auth.autoLogin',err);
-                                throw err;
+                                next(new Error('internal error'));
                             })
                         }
                     })
                     .catch(err =>{
                         Logs.error('auth.autoLogin',err);
-                        throw err;
+                        next(new Error('internal error'));
                     })
                 } else {
                     next(new Error('Missing information'));
@@ -325,44 +329,10 @@ exports.Auth = class {
             })
             .catch(err =>{
                 Logs.error('auth.autoLogin',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
-
-    /* /**
-     * 
-     * @param {number} id 
-     * @param {string} oldPassword 
-     * @param {string} newPassword
-     * @returns {Promise<boolean|Error>}
-    editPassword(id,oldPassword,newPassword){
-        return new Promise(next =>{
-            this.userOBJ.getById(id,'password')
-            .then(res =>{
-                if(res instanceof Error){
-                    Logs.warning(`No user mathing id ${id}`);
-                    next(new Error('Missing information'));
-                } else {
-                    if(res.password===oldPassword){
-                        this.userOBJ.update(id,{
-                            password : newPassword
-                        })
-                        .then(res =>{
-                            next(res);
-                        })
-                        .catch(err =>{
-                            Logs.error('auth.editPassword',err);
-                            throw err;
-                        })
-                    } else {
-                        Logs.warning(`Wrong password for user ${id} will trying to update password`);
-                        next(new Error('Missing informaiton'));
-                    }
-                }
-            })
-        })
-    } */
     
     updatePassword(id,newPassword){
         return new Promise(next =>{
@@ -377,7 +347,7 @@ exports.Auth = class {
             })
             .catch(err =>{
                 Logs.error('auth.updatePassword');
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }

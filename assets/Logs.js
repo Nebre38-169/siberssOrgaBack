@@ -45,8 +45,18 @@ module.exports = class Logs {
         this.fileWrite(filePath,content);
     }
 
+    /**
+     * Write all usefull information on a coming request.
+     * @param {*} req 
+     */
     static connexion(req){
-        //TODO : implemente the connexion log
+        let connexion = `Request from application ${req.headers.origin} on page ${req.headers.referer}. Requesting ${req.client.parser.socket.parser.incoming.url} with method ${req.client.parser.socket.parser.incoming.method} for IP ${req.client.parser.socket._peername.address}`;
+        this.info(connexion);
+        /* console.log(req.headers.origin);
+        console.log(req.headers.referer);
+        console.log(req.client.parser.socket._peername.address);
+        console.log(req.client.parser.socket.parser.incoming.method);
+        console.log(req.client.parser.socket.parser.incoming.url); */
     }
 
     /**

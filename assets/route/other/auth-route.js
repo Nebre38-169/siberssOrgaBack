@@ -1,6 +1,7 @@
 const express = require('express');
 const { Auth } = require('../../databaseInteraction/other/auth');
 const {checkAndChange} = require('../../fonctions');
+const middleware = require('../../middleware');
 const router = express.Router();
 let dbAuth;
 
@@ -29,7 +30,7 @@ router.get('/logout/:id',async(req,res)=>{
     res.json(checkAndChange(result));
 })
 
-router.post('/signin',async(req,res)=>{
+router.post('/signin',middleware.admin,async(req,res)=>{
     let result;
     if(req.body.name && req.body.password &&
         req.body.respo && req.body.role){
@@ -41,7 +42,7 @@ router.post('/signin',async(req,res)=>{
     res.json(checkAndChange(result));
 })
 
-router.post('/editpassword/:id',async(req,res)=>{
+router.post('/editpassword/:id',middleware.admin,async(req,res)=>{
     let result;
     if(req.body.newPassword){
         result = await dbAuth.updatePassword(req.params.id,req.body.newPassword);

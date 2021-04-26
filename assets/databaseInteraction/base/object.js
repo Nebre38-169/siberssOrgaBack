@@ -345,13 +345,13 @@ exports.object = class {
                     })
                     .catch((err)=>{
                         Logs.error('object.update',err);
-                        throw err;
+                        next(new Error('internal error'));
                     })
                 }
             })
             .catch((err)=>{
                 Logs.error('object.update',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -371,12 +371,12 @@ exports.object = class {
                 })
                 .catch((err)=>{
                     Logs.error('object.delete',err);
-                    throw err;
+                    next(new Error('internal error'));
                 })
             })
             .catch((err)=>{
                 Logs.error('object.delete',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -439,13 +439,13 @@ exports.objectWithDependance = class extends this.object {
                     })
                     .catch(err =>{
                         Logs.error('objectWithDependance.createNew',err);
-                        throw err;
+                        next(new Error('internal error'));
                     })
                 }
             })
             .catch(err =>{
                 Logs.error('objectWithDependance.createNew',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -471,13 +471,13 @@ exports.objectWithDependance = class extends this.object {
                     })
                     .catch((err)=>{
                         Logs.error('objectWithDependance.update',err);
-                        throw err;
+                        next(new Error('internal error'));
                     })
                 }
             })
             .catch((err)=>{
                 Logs.error('objectWithDependance.update',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -492,7 +492,7 @@ exports.objectWithDependance = class extends this.object {
             })
             .catch((err)=>{
                 Logs.error('objectWithDependance.getByDependance',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -508,7 +508,7 @@ exports.objectWithDependance = class extends this.object {
             })
             .catch((err)=>{
                 Logs.error('objectWithDependance.deleteByDependance',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }

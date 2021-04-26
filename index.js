@@ -17,6 +17,7 @@ const { Connexion } = require('./assets/databaseInteraction/other/connexion');
 const { Auth } = require('./assets/databaseInteraction/other/auth');
 
 const database = require('./database-structure.json');
+const middleware = require('./assets/middleware');
 
 
 // Begining of code : 
@@ -80,6 +81,9 @@ const postsRoute = require('./assets/route/channel/posts-route')(postsOBJ);
 Logs.info('loaded channel routes');
 
 const authRoute = require('./assets/route/other/auth-route')(authOBJ);
+
+app.use(middleware.logs);
+app.use(middleware.spice);
 
 app.get('/',(req,res)=>{
     res.json('OK');

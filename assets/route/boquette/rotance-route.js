@@ -1,6 +1,7 @@
 const express = require('express');
 const { checkAndChange } = require('../../fonctions');
 const { Rotance } = require('../../databaseInteraction/boquette/rotance');
+const middleware = require('../../middleware');
 const router = express.Router();
 
 //TODO : add middleware
@@ -67,7 +68,7 @@ router.get('/count',async(req,res)=>{
     res.json(checkAndChange(result));
 })
 
-router.post('',async(req,res)=>{
+router.post('',middleware.login,async(req,res)=>{
     let result;
     if(req.body.lieu && req.body.date && req.body.boquette && req.body.commencer){
         result = await OBJ.createNew(req.body);
@@ -80,7 +81,7 @@ router.post('',async(req,res)=>{
 /**
  * Update an entry if all field are located
  */
-router.put('/:id',async (req,res)=>{
+router.put('/:id',middleware.login,async (req,res)=>{
     let result;
     if(req.body.lieu && req.body.date && req.body.boquette && req.body.commencer){
         result = await OBJ.update(req.params.id,req.body);
@@ -93,7 +94,7 @@ router.put('/:id',async (req,res)=>{
 /**
  * Delete an entry with the corresponding id
  */
- router.delete('/:id',async (req,res)=>{
+ router.delete('/:id',middleware.login,async (req,res)=>{
     let result = await OBJ.delete(req.params.id);
     res.json(checkAndChange(result));
 })
