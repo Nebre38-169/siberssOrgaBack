@@ -47,7 +47,7 @@ router.get('/dependance/:field/:id',async(req,res)=>{
 })
 
 router.get('/last/:channel',async(req,res)=>{
-    let result = await OBJ.get(`posts.channel=${req.params.channel} ORDER BY posts.creationDate DESC LIMIT 1`);
+    let result = await OBJ.get('*',{ field : 'channel', value:req.params.channel},{ ordre : { champs:'creationDate',asc : false }, limit : 1 });
     res.json(checkAndChange(result));
 })
 
