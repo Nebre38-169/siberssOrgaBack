@@ -8,6 +8,7 @@ const cors = require('cors');
 const mysql = require('promise-mysql2');
 
 // Import des classes et fonction interne
+const { checkEnvironement, checkEnvironnemt } = require('./checkEnvVariable');
 const Logs = require('./assets/Logs');
 const { Boquette } = require('./assets/databaseInteraction/boquette/boquette');
 const { Rotance } = require('./assets/databaseInteraction/boquette/rotance');
@@ -18,6 +19,18 @@ const { Auth } = require('./assets/databaseInteraction/other/auth');
 
 const database = require('./database-structure.json');
 const middleware = require('./assets/middleware');
+
+const environement = checkEnvironnemt();
+if(environement.status){
+    let errorMessage = '';
+    for(let v of environement.missing){
+        errorMessage+=`${v},`;
+    }
+    errorMessage+=' are missing form the environement variable. Add them if you want the server to start';
+    const e = new Error(errorMessage);
+    Logs.error('index.checkEnvironement',e);
+    throw e;
+}
 
 
 // Begining of code : 
@@ -31,6 +44,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 const env = process.env.NODE_ENV || 'developement';
 const port = process.env.PORT || 3000;
 const databaseHost = process.env.DB_HOST || 'localhost';
+
+Logs.info(`App starting in ${env} mode`);
 
 // Création de la connexion avec la base de donnée 
 var pool = mysql.createPool({

@@ -87,7 +87,7 @@ exports.object = class {
             })
             .catch((err)=>{
                 Logs.error('object.get',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -114,7 +114,7 @@ exports.object = class {
             })
             .catch((err)=>{
                 Logs.error('object.getById',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -139,6 +139,10 @@ exports.object = class {
                     next(new Error('No entry matching this key'));
                 }
             })
+            .catch(err =>{
+                Logs.error('object.getByKey',err);
+                next(new Error('internal error'));
+            })
         })
     }
 
@@ -162,7 +166,7 @@ exports.object = class {
             })
             .catch(err=>{
                 Logs.error('object.getCount',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -217,7 +221,7 @@ exports.object = class {
             })
             .catch((err)=>{
                 Logs.error('object.post',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -240,7 +244,7 @@ exports.object = class {
             })
             .catch((err)=>{
                 Logs.error('object.checkExistance',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }
@@ -283,13 +287,13 @@ exports.object = class {
                     })
                     .catch((err)=>{
                         Logs.error('object.createNew',err);
-                        throw err;
+                        next(new Error('internal error'));
                     })
                 }
             })
             .catch((err)=>{
                 Logs.error('object.createNew',err);
-                throw err;
+                next(new Error('internal error'));
             })
         })
     }

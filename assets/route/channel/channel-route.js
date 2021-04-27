@@ -4,8 +4,6 @@ const { Channel } = require('../../databaseInteraction/channel/channel');
 const middleware = require('../../middleware');
 const router = express.Router();
 
-//TODO : add middleware
-
 var OBJ;
 
 /**
