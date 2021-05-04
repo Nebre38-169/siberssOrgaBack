@@ -1,4 +1,4 @@
-const Logs = require('../../logs');
+const Logs = require('../../Logs');
 
 const passportJWT  = require('passport-jwt');
 const jwt = require('jsonwebtoken');

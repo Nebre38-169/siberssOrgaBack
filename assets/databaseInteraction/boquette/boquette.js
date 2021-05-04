@@ -1,6 +1,6 @@
 const { object } = require('../base/object');
 const database = require('../../../database-structure.json');
-const Logs = require('../../logs');
+const Logs = require('../../Logs');
 
 exports.Boquette = class extends object {
 
