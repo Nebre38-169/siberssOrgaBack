@@ -1,4 +1,4 @@
-const Logs = require("../../logs");
+const Logs = require("../../Logs");
 const config = require('../../../config.json');
 
 exports.object = class {
