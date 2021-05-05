@@ -47,6 +47,7 @@ class middleware {
         if(!protectionMode || middleware.checkSpice(req,res)){
             next();
         } else {
+            Logs.warning('Request rejected for missing spice');
             res.status(403).json(checkAndChange(new Error('unauthorized')));
         }
     }
@@ -99,6 +100,7 @@ class middleware {
             if(middleware.checkSpice(req,res)&&log){
                 next();
             } else {
+                Logs.warning('Requested rejected for missing spice or log');
                 res.status(403).json(checkAndChange(new Error('unauthorized')));
             }
         }
@@ -155,12 +157,15 @@ class middleware {
                     if(right){
                         next();
                     } else {
+                        Logs.warning('Request rejected for missing right');
                         res.status(403).json(checkAndChange(new Error('unauthorized')));
                     }
                 } else {
+                    Logs.warning('Request rejected for missing log');
                     res.status(403).json(checkAndChange(new Error('unauthorized')));
                 }
             } else {
+                Logs.warning('Request rejected for missing spice');
                 res.status(403).json(checkAndChange(new Error('unauthorized')));
             }
         }
