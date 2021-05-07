@@ -52,7 +52,7 @@ exports.object = class {
         field = field || '*';
         let query = `SELECT ${field} FROM ${table}`
         if(condition){
-            let conditionStr = ` WHERE ${condition.field}='${condition.value}'`;
+            let conditionStr = ` WHERE ${condition.field}="${condition.value}"`;
             query+=conditionStr;
         }
         if(opts!=undefined){
@@ -191,7 +191,7 @@ exports.object = class {
         for(let column of this.params){
             if(column!='creationDate' && column!='updateDate'){
                 if(values[column]!=undefined){
-                    query = query + `'${values[column]}',`;
+                    query = query + `"${values[column]}",`;
                 } else {
                     query += 'null,';
                 }
@@ -233,7 +233,7 @@ exports.object = class {
      */
     checkExistance(KeyValue,id){
         return new Promise((next)=>{
-            let query = `SELECT * FROM ${this.table} WHERE ${this.keyName}='${KeyValue}'`;
+            let query = `SELECT * FROM ${this.table} WHERE ${this.keyName}="${KeyValue}"`;
             this.db.query(query)
             .then(([result,fields])=>{
                 if(result[0] !=undefined && parseInt(result[0].id)!=id){
@@ -315,7 +315,7 @@ exports.object = class {
         for(let column of Object.keys(values)){
             if(column!='creationDate' && column!='updateDate'){
                 if(values[column]!=undefined){
-                    query += ` ${column}='${values[column]}',`;
+                    query += ` ${column}="${values[column]}",`;
                 }
             } else if(column==='updateDate') {
                 query += ` ${column}=?,`;
